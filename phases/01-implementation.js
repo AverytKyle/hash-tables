@@ -9,8 +9,9 @@ class KeyValuePair {
 class HashTable { // get O(1), set O(1), deleteKey O(1)
 
   constructor(numBuckets = 8) {
-    // Initialize your buckets here
-    // Your code here 
+    this.count = 0
+    this.capacity = numBuckets
+    this.data = new Array(numBuckets).fill(null)
   }
 
   hash(key) {
@@ -30,12 +31,34 @@ class HashTable { // get O(1), set O(1), deleteKey O(1)
 
 
   insert(key, value) {
-    // Your code here 
+    let index = this.hashMod(key)
+    let currPair = this.data[index]
+
+    while (currPair && currPair.key !== key) {
+      currPair = currPair.next
+    }
+    if (currPair) {
+      currPair.value = value
+    } else {
+      let newPair = new KeyValuePair(key, value)
+      newPair.next = this.data[index]
+      this.data[index] = newPair
+      this.count++
+    }
   }
 
 
   read(key) {
-    // Your code here 
+    let index = this.hashMod(key)
+    let currPair = this.data[index]
+    
+    while(currPair) {
+      if(currPair.key === key) {
+        return currPair.value
+      }
+      currPair = currPair.next
+    }
+    return undefined
   }
 
 
@@ -48,6 +71,15 @@ class HashTable { // get O(1), set O(1), deleteKey O(1)
     // Your code here 
   }
 }
+let hashTable = new HashTable(2)
 
+// hashTable.insert("key1", "value1")
+//     hashTable.insert("key2", "value2")
+//     hashTable.insert("key3", "value3")
+//     hashTable.insert("key5", "value5")
+//     hashTable.insert("key9", "value9")
+//     hashTable.insert("key10", "value10")
+
+  // console.log(hashTable.data[0].next)
 
 module.exports = HashTable;
