@@ -63,7 +63,40 @@ class HashTable { // get O(1), set O(1), deleteKey O(1)
 
 
   resize() {
-    // Your code here 
+    const resized = new Array(this.capacity * 2)
+    let dataCopy = this.data
+    this.capacity *= 2
+    // console.log(this.data)
+    
+    
+    
+    //this.insert(dataCopy[i].key, dataCopy[i].value)
+    // if (dataCopy[i].next) {
+      //   resized[i] = dataCopy[i]
+      //   resized[i+2] = dataCopy[i].next
+      //   dataCopy[i].next = null
+      //   // i++
+      
+      // } else {
+        //   resized[i] = dataCopy[i]
+        //   // i++
+        // }
+    let i = 0
+    while (dataCopy[i]) {
+      let index = this.hashMod(dataCopy[i].key)
+       if (dataCopy[i].next) {
+        resized[index] = dataCopy[i].next
+        dataCopy[i].next = null
+       } else {
+        resized[index] = dataCopy[i]
+       } 
+       i++
+    }
+
+    
+    this.data = resized
+    console.log(resized)
+    
   }
 
 
